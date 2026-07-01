@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import siteConfig from '@/libs/sites'
 import Themes from './Themes'
-import { Languages } from 'lucide-react'
+import { Languages, User } from 'lucide-react'
 
 const TopNav = () => {
 	const sites = siteConfig.sites
@@ -47,7 +47,7 @@ const TopNav = () => {
 			</div>
 
 			{/* 右侧操作按钮 */}
-			<div className='w-fit h-full items-center flex gap-3 rounded-full  box-shadow p-1'>
+			<div className='w-fit h-full items-center flex gap-2 rounded-full  box-shadow p-1'>
 				<Themes />
 				<div className='w-px h-1/3 bg-base-content/30' />
 				<button className='button-hover-global '>
@@ -55,7 +55,7 @@ const TopNav = () => {
 				</button>
 				<div className='w-px h-1/3 bg-base-content/30' />
 				<button className='button-hover-global '>
-					<Languages className='w-4 h-4' />
+					<User className='w-4 h-4' />
 				</button>
 			</div>
 		</section>
