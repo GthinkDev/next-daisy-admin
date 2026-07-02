@@ -48,8 +48,8 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 							global-card py-4 
 							transition-all duration-300 ease-in-out
 							shrink-0
-							w-60
-							${isSidebarOpen ? 'translate-x-0 mr-0' : '-translate-x-full -mr-64 opacity-0'}
+							w-58
+							${isSidebarOpen ? 'translate-x-0 mr-0' : '-translate-x-full -mr-62 opacity-0'}
 						`}
 					>
 						<SideBar title='导航菜单' menus={getSidebarMenus()} />

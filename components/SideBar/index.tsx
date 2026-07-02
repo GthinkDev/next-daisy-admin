@@ -1,7 +1,7 @@
 // src/components/SideBar/index.tsx
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { type LucideIcon } from 'lucide-react'
@@ -23,12 +23,10 @@ const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: S
 		const initOpenState = (items: MenuItem[], parentKey = '') => {
 			items.forEach((item, index) => {
 				const key = parentKey ? `${parentKey}-${index}` : `${index}`
-				// 如果 item.isOpen 为 true，或者当前路径匹配该菜单或其子菜单，则展开
 				if (item.isOpen || (item.href && pathname.startsWith(item.href))) {
 					initial[key] = true
 				}
 				if (item.children) {
-					// 检查子菜单是否包含当前路径
 					const hasActiveChild = item.children.some((child) => child.href && pathname.startsWith(child.href))
 					if (hasActiveChild) {
 						initial[key] = true
@@ -47,7 +45,6 @@ const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: S
 		const updateOpenState = (items: MenuItem[], parentKey = '') => {
 			items.forEach((item, index) => {
 				const key = parentKey ? `${parentKey}-${index}` : `${index}`
-				// 如果当前路径匹配该菜单或其子菜单，则展开
 				if (item.href && pathname.startsWith(item.href)) {
 					newOpenMenus[key] = true
 				}
@@ -99,13 +96,16 @@ const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: S
 								e.preventDefault()
 								toggleMenu(key)
 							}}
+							className='cursor-pointer'
 						>
 							{renderIcon(item.icon)}
 							<span>{item.label}</span>
 						</summary>
-						<ul className='my-1 flex flex-col gap-1'>
-							{item.children!.map((child, childIndex) => renderMenuItem(child, childIndex, key))}
-						</ul>
+						<div className='menu-children'>
+							<ul className='my-1 flex flex-col gap-1'>
+								{item.children!.map((child, childIndex) => renderMenuItem(child, childIndex, key))}
+							</ul>
+						</div>
 					</details>
 				</li>
 			)
@@ -137,6 +137,26 @@ const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: S
 			) : (
 				<div className='text-center text-gray-400 text-sm py-4'>暂无菜单</div>
 			)}
+
+			{/* 添加 CSS 动画 - 使用 Grid 实现平滑过渡 */}
+			<style jsx global>{`
+				.menu-children {
+					display: grid;
+					grid-template-rows: 0fr;
+					transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+				}
+				.menu-children > ul {
+					overflow: hidden;
+					opacity: 0;
+					transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+				}
+				details[open] > .menu-children {
+					grid-template-rows: 1fr;
+				}
+				details[open] > .menu-children > ul {
+					opacity: 1;
+				}
+			`}</style>
 		</div>
 	)
 }

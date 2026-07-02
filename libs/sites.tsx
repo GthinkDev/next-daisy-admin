@@ -12,6 +12,7 @@ import {
 	Database as DatabaseIcon,
 	Puzzle,
 	type LucideIcon,
+	Store,
 } from 'lucide-react'
 
 // ✅ 导出 MenuItem 类型，供其他模块使用
@@ -82,7 +83,7 @@ const siteConfig = {
 		{
 			label: '商城首页',
 			href: '/mail',
-			icon: CalendarFold,
+			icon: Store,
 		},
 		{
 			label: '用户管理',

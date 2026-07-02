@@ -20,7 +20,7 @@ const TopNav = () => {
 	return (
 		<section className='flex gap-4 items-center justify-start h-11 z-50'>
 			{/* Logo */}
-			<div className='w-60 rounded-full h-full items-center flex justify-center'>
+			<div className='w-58 rounded-full h-full items-center flex justify-center'>
 				<button className='btn btn-ghost btn-primary btn-circle w-full h-full'>Logo</button>
 			</div>
 
