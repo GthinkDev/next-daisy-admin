@@ -1,7 +1,6 @@
-// src/components/SideBar/index.tsx
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { type LucideIcon } from 'lucide-react'
@@ -17,20 +16,14 @@ interface SideBarProps {
 const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: SideBarProps) => {
 	const pathname = usePathname()
 
-	// ✅ 存储所有菜单的展开状态
+	// ✅ 存储所有菜单的展开状态 - 默认全部展开
 	const [openMenus, setOpenMenus] = useState<Record<string, boolean>>(() => {
 		const initial: Record<string, boolean> = {}
 		const initOpenState = (items: MenuItem[], parentKey = '') => {
 			items.forEach((item, index) => {
 				const key = parentKey ? `${parentKey}-${index}` : `${index}`
-				if (item.isOpen || (item.href && pathname.startsWith(item.href))) {
+				if (item.children && item.children.length > 0) {
 					initial[key] = true
-				}
-				if (item.children) {
-					const hasActiveChild = item.children.some((child) => child.href && pathname.startsWith(child.href))
-					if (hasActiveChild) {
-						initial[key] = true
-					}
 					initOpenState(item.children, key)
 				}
 			})
@@ -77,7 +70,7 @@ const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: S
 	const renderIcon = (icon?: LucideIcon) => {
 		if (!icon) return null
 		const IconComponent = icon
-		return <IconComponent className='w-4 h-4 shrink-0' />
+		return <IconComponent className='w-4 h-4 shrink-0 ' />
 	}
 
 	// ✅ 递归生成菜单项（带索引生成唯一 key）
@@ -89,20 +82,28 @@ const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: S
 
 		if (hasChildren) {
 			return (
-				<li key={key} className={active ? 'menu-active rounded-field' : ''}>
-					<details open={isOpen}>
+				<li key={key} className={active ? 'menu-active rounded-field ' : ''}>
+					<details
+						open={isOpen}
+						onToggle={(e) => {
+							// 当 details 状态变化时同步状态
+							if (e.currentTarget.open !== isOpen) {
+								toggleMenu(key)
+							}
+						}}
+					>
 						<summary
 							onClick={(e) => {
 								e.preventDefault()
 								toggleMenu(key)
 							}}
-							className='cursor-pointer'
+							className='cursor-pointer font-black '
 						>
 							{renderIcon(item.icon)}
 							<span>{item.label}</span>
 						</summary>
-						<div className='menu-children'>
-							<ul className='my-1 flex flex-col gap-1'>
+						<div className={`menu-children ${isOpen ? 'menu-children-open' : ''}`}>
+							<ul className='my-2 flex flex-col gap-2 '>
 								{item.children!.map((child, childIndex) => renderMenuItem(child, childIndex, key))}
 							</ul>
 						</div>
@@ -116,10 +117,10 @@ const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: S
 				{item.href ? (
 					<Link href={item.href}>
 						{renderIcon(item.icon)}
-						<span>{item.label}</span>
+						<span className={hasChildren ? 'font-black' : 'font-medium'}>{item.label}</span>
 					</Link>
 				) : (
-					<span className='px-4 py-2 text-gray-400'>
+					<span className='px-4 text-base-content/40'>
 						{renderIcon(item.icon)}
 						<span>{item.label}</span>
 					</span>
@@ -131,30 +132,34 @@ const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: S
 	return (
 		<div className={`h-full flex flex-col ${className}`}>
 			{showTitle && title && <p className='px-6 font-bold menu-title text-xs uppercase tracking-wider'>{title}</p>}
-
 			{menus.length > 0 ? (
-				<ul className='menu w-full flex flex-col gap-2'>{menus.map((item, index) => renderMenuItem(item, index))}</ul>
+				<ul className='menu  w-full flex flex-col gap-2'>{menus.map((item, index) => renderMenuItem(item, index))}</ul>
 			) : (
 				<div className='text-center text-gray-400 text-sm py-4'>暂无菜单</div>
 			)}
-
-			{/* 添加 CSS 动画 - 使用 Grid 实现平滑过渡 */}
+			{/* CSS 动画 - 使用 max-height + 组合动画 */}
 			<style jsx global>{`
 				.menu-children {
-					display: grid;
-					grid-template-rows: 0fr;
-					transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-				}
-				.menu-children > ul {
-					overflow: hidden;
+					max-height: 0;
 					opacity: 0;
-					transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+					transform: translateY(-12px);
+					overflow: hidden;
+					transition:
+						max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+						opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+						transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 				}
-				details[open] > .menu-children {
-					grid-template-rows: 1fr;
-				}
-				details[open] > .menu-children > ul {
+				.menu-children-open {
+					max-height: 800px;
 					opacity: 1;
+					transform: translateY(0);
+				}
+				/* 收起时更慢 */
+				.menu-children:not(.menu-children-open) {
+					transition:
+						max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+						opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1) 0.25s,
+						transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) 0.25s;
 				}
 			`}</style>
 		</div>
