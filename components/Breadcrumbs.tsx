@@ -89,13 +89,13 @@ const Breadcrumbs = () => {
 					<li key={`${item.href}-${index}`} className='flex items-center '>
 						{item.isLast ? (
 							// 当前页面高亮显示
-							<button className='btn rounded-full h-full py-1.5 btn-link pointer-events-none no-underline'>
+							<button className='btn rounded-full text-base-content h-full btn-link pointer-events-none no-underline'>
 								{item.label}
 							</button>
 						) : (
 							<button
 								onClick={() => router.push(item.href)}
-								className='btn h-full py-1.5 btn-link text-base-content/60  font-medium rounded-full  no-underline hover:text-primary transition-colors '
+								className='btn h-full pl-1.5 btn-link text-base-content/60 flex items-center justify-center font-medium no-underline hover:text-primary transition-colors '
 							>
 								<Home className='w-4 h-4' />
 								{item.label}

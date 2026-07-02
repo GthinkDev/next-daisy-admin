@@ -74,11 +74,15 @@ const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: S
 	}
 
 	// ✅ 递归生成菜单项（带索引生成唯一 key）
-	const renderMenuItem = (item: MenuItem, index: number, parentKey = '') => {
+	const renderMenuItem = (item: MenuItem, index: number, parentKey = '', depth: number = 0) => {
 		const hasChildren = item.children && item.children.length > 0
 		const active = isExactActive(item.href)
 		const key = parentKey ? `${parentKey}-${index}` : `${index}`
 		const isOpen = openMenus[key] || false
+		// ✅ 判断是否为一级菜单
+		const isTopLevel = parentKey === ''
+		// ✅ 判断是否应该加粗：所有一级菜单 + 有子级的二级菜单
+		const shouldBold = isTopLevel || (depth === 1 && hasChildren)
 
 		if (hasChildren) {
 			return (
@@ -86,7 +90,6 @@ const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: S
 					<details
 						open={isOpen}
 						onToggle={(e) => {
-							// 当 details 状态变化时同步状态
 							if (e.currentTarget.open !== isOpen) {
 								toggleMenu(key)
 							}
@@ -97,14 +100,14 @@ const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: S
 								e.preventDefault()
 								toggleMenu(key)
 							}}
-							className='cursor-pointer font-black '
+							className={`cursor-pointer ${shouldBold ? 'font-extrabold' : ''}`}
 						>
 							{renderIcon(item.icon)}
 							<span>{item.label}</span>
 						</summary>
 						<div className={`menu-children ${isOpen ? 'menu-children-open' : ''}`}>
-							<ul className='my-2 flex flex-col gap-2 '>
-								{item.children!.map((child, childIndex) => renderMenuItem(child, childIndex, key))}
+							<ul className='my-2 flex flex-col gap-2'>
+								{item.children!.map((child, childIndex) => renderMenuItem(child, childIndex, key, depth + 1))}
 							</ul>
 						</div>
 					</details>
@@ -117,18 +120,17 @@ const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: S
 				{item.href ? (
 					<Link href={item.href}>
 						{renderIcon(item.icon)}
-						<span className={hasChildren ? 'font-black' : 'font-medium'}>{item.label}</span>
+						<span className={isTopLevel ? 'font-extrabold' : ''}>{item.label}</span>
 					</Link>
 				) : (
-					<span className='px-4 text-base-content/40'>
+					<span className='px-4 text-base-content/40 '>
 						{renderIcon(item.icon)}
-						<span>{item.label}</span>
+						<span className={isTopLevel ? 'font-extrabold' : 'font-medium'}>{item.label}</span>
 					</span>
 				)}
 			</li>
 		)
 	}
-
 	return (
 		<div className={`h-full flex flex-col ${className}`}>
 			{showTitle && title && <p className='px-6 font-bold menu-title text-xs uppercase tracking-wider'>{title}</p>}
