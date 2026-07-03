@@ -42,10 +42,10 @@ const SidebarToggle = ({ defaultOpen = true, onToggle, className = '' }: Sidebar
 		>
 			{isOpen ? (
 				// 展开状态：显示向左箭头（表示收起）
-				<PanelRightOpen className='w-5 h-5' />
+				<PanelRightOpen className='w-4.5 h-4.5' />
 			) : (
 				// 收起状态：显示向右箭头（表示展开）
-				<PanelRightClose className='w-5 h-5' />
+				<PanelRightClose className='w-4.5 h-4.5' />
 			)}
 		</button>
 	)

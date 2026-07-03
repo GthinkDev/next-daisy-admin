@@ -57,7 +57,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 				)}
 
 				{/* ✅ 主内容 - 自动撑满剩余空间 */}
-				<main className='flex flex-col  h-full'>
+				<main className='flex flex-col w-full  h-full'>
 					{!isHomePage && (
 						<section className='flex gap-2 items-center justify-start w-full py-1.5'>
 							<SidebarToggle defaultOpen={isSidebarOpen} onToggle={setIsSidebarOpen} />

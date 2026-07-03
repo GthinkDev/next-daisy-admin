@@ -81,10 +81,10 @@ const siteConfig = {
 	],
 
 	// ✅ 商城模块菜单（左侧栏）
-	// ✅ 商城模块菜单（左侧栏）
 	mailMenus: [
 		{
 			label: '商品管理',
+			href: '/mail/products', // ✅ 添加 href
 			icon: Package,
 			isOpen: true,
 			children: [
@@ -94,6 +94,7 @@ const siteConfig = {
 				{ label: '回收站', href: '/mail/products/recycle' },
 				{
 					label: '商品设置',
+					href: '/mail/products/settings', // ✅ 添加 href
 					icon: Settings,
 					children: [
 						{ label: '分类层级', href: '/mail/products/settings/categories' },
@@ -106,6 +107,7 @@ const siteConfig = {
 		},
 		{
 			label: '订单管理',
+			href: '/mail/orders', // ✅ 添加 href
 			icon: ShoppingBag,
 			isOpen: true,
 			children: [
@@ -117,6 +119,7 @@ const siteConfig = {
 				{ label: '全部订单', href: '/mail/orders/all' },
 				{
 					label: '订单处理',
+					href: '/mail/orders/processing', // ✅ 添加 href
 					icon: Settings,
 					children: [
 						{ label: '维权订单', href: '/mail/orders/processing/rights' },
@@ -130,6 +133,7 @@ const siteConfig = {
 		},
 		{
 			label: '物流管理',
+			href: '/mail/logistics', // ✅ 添加 href
 			icon: Truck,
 			isOpen: true,
 			children: [
@@ -140,6 +144,7 @@ const siteConfig = {
 		},
 		{
 			label: '商城设置',
+			href: '/mail/settings', // ✅ 添加 href
 			icon: Cog,
 			isOpen: true,
 			children: [
