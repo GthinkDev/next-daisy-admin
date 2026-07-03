@@ -116,7 +116,7 @@ const Themes = () => {
 
 			<ul
 				tabIndex={-1}
-				className='dropdown-content mt-4 gap-1 z-50 bg-base-200 rounded-4xl w-56 px-3 py-5 shadow-2xl max-h-120 overflow-y-auto '
+				className='dropdown-content mt-8 gap-1 bg-base-200 rounded-box w-56 px-3 py-5 shadow-2xl max-h-120 overflow-y-auto '
 			>
 				<li className='menu-title text-xs sticky z-50 px-4'>选择主题</li>
 				{DAISYUI_THEMES.map((theme, index) => (
