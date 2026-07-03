@@ -106,7 +106,7 @@ const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: S
 							<span>{item.label}</span>
 						</summary>
 						<div className={`menu-children ${isOpen ? 'menu-children-open' : ''}`}>
-							<ul className='my-2 flex flex-col gap-2'>
+							<ul className='my-2 flex flex-col gap-2 '>
 								{item.children!.map((child, childIndex) => renderMenuItem(child, childIndex, key, depth + 1))}
 							</ul>
 						</div>
@@ -132,10 +132,10 @@ const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: S
 		)
 	}
 	return (
-		<div className={`h-full flex flex-col ${className}`}>
-			{showTitle && title && <p className='px-6 font-bold menu-title text-xs uppercase tracking-wider'>{title}</p>}
+		<div className={`h-full flex flex-col ${className} max-h-[calc(100vh-160px)] overflow-y-auto`}>
+			{/* {showTitle && title && <p className='px-6 font-bold  text-xs uppercase tracking-wider'>{title}</p>} */}
 			{menus.length > 0 ? (
-				<ul className='menu  w-full flex flex-col gap-2'>{menus.map((item, index) => renderMenuItem(item, index))}</ul>
+				<ul className='menu  w-full flex flex-col gap-2 '>{menus.map((item, index) => renderMenuItem(item, index))}</ul>
 			) : (
 				<div className='text-center text-gray-400 text-sm py-4'>暂无菜单</div>
 			)}

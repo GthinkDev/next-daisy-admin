@@ -13,6 +13,10 @@ import {
 	Puzzle,
 	type LucideIcon,
 	Store,
+	Package,
+	Settings,
+	ShoppingBag,
+	Truck,
 } from 'lucide-react'
 
 // ✅ 导出 MenuItem 类型，供其他模块使用
@@ -77,47 +81,71 @@ const siteConfig = {
 	],
 
 	// ✅ 商城模块菜单（左侧栏）
-	// mailMenus: [],
-	// ✅ 默认后台菜单（备用）
+	// ✅ 商城模块菜单（左侧栏）
 	mailMenus: [
 		{
-			label: '商城首页',
-			href: '/mail',
-			icon: Store,
-		},
-		{
-			label: '用户管理',
-			icon: CalendarFold,
+			label: '商品管理',
+			icon: Package,
 			isOpen: true,
 			children: [
-				{ label: '用户列表', href: '/mail/user/users' },
-				{ label: '角色权限', href: '/mail/user/roles' },
+				{ label: '出售中', href: '/mail/products/selling' },
+				{ label: '已售罄', href: '/mail/products/soldout' },
+				{ label: '仓库中', href: '/mail/products/warehouse' },
+				{ label: '回收站', href: '/mail/products/recycle' },
 				{
-					label: '组织架构',
-					icon: CalendarFold,
+					label: '商品设置',
+					icon: Settings,
 					children: [
-						{ label: '部门管理', href: '/mail/user/org/departments' },
-						{ label: '岗位设置', href: '/mail/user/org/positions' },
+						{ label: '分类层级', href: '/mail/products/settings/categories' },
+						{ label: '商品分组', href: '/mail/products/settings/groups' },
+						{ label: '标签管理', href: '/mail/products/settings/tags' },
 					],
 				},
+				{ label: '批量设置', href: '/mail/products/batch' },
 			],
 		},
 		{
-			label: '内容管理',
-			icon: CalendarFold,
+			label: '订单管理',
+			icon: ShoppingBag,
 			isOpen: true,
 			children: [
-				{ label: '文章列表', href: '/posts' },
-				{ label: '分类标签', href: '/posts/categories' },
+				{ label: '待发货', href: '/mail/orders/pending' },
+				{ label: '待付款', href: '/mail/orders/unpaid' },
+				{ label: '待收货', href: '/mail/orders/shipping' },
+				{ label: '已完成', href: '/mail/orders/completed' },
+				{ label: '已关闭', href: '/mail/orders/closed' },
+				{ label: '全部订单', href: '/mail/orders/all' },
+				{
+					label: '订单处理',
+					icon: Settings,
+					children: [
+						{ label: '维权订单', href: '/mail/orders/processing/rights' },
+						{ label: '评价管理', href: '/mail/orders/processing/reviews' },
+					],
+				},
+				{ label: '批量发货', href: '/mail/orders/batch-ship' },
+				{ label: '订单导出', href: '/mail/orders/export' },
+				{ label: '增强发货', href: '/mail/orders/enhanced-ship' },
 			],
 		},
 		{
-			label: '系统设置',
+			label: '物流管理',
+			icon: Truck,
 			isOpen: true,
-			icon: CalendarFold,
 			children: [
-				{ label: '基本设置', href: '/settings' },
-				{ label: '安全设置', href: '/settings/security' },
+				{ label: '物流监控', href: '/mail/logistics/monitor' },
+				{ label: '配送方式', href: '/mail/logistics/methods' },
+				{ label: '物流设置', href: '/mail/logistics/settings' },
+			],
+		},
+		{
+			label: '商城设置',
+			icon: Cog,
+			isOpen: true,
+			children: [
+				{ label: '分享设置', href: '/mail/settings/share' },
+				{ label: '公告管理', href: '/mail/settings/announcements' },
+				{ label: '交易设置', href: '/mail/settings/trade' },
 			],
 		},
 	],

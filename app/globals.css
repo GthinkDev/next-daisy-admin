@@ -4,7 +4,7 @@
 }
 
 body {
-  @apply p-2 h-screen bg-base-200/30
+  @apply p-2 h-full bg-base-200/30
 }
 
 .global-card {
@@ -13,7 +13,10 @@ body {
    
 
 .box-shadow {
-  @apply shadow-[0_10px_25px]  shadow-base-content/10
+  @apply shadow-[0_10px_25px]  shadow-black/15
+}o
+.side-shadow {
+  @apply shadow-[10px_0_25px]  shadow-black/15
 }
 
 .button-hover-global {

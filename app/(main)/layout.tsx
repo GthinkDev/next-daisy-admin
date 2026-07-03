@@ -40,15 +40,15 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 			<TopNav />
 
 			{/* 主体区域：侧边栏 + 内容 */}
-			<div className='flex flex-1 gap-4'>
+			<div className='flex flex-1 gap-4 h-full '>
 				{/* ✅ 侧边栏 - 使用 transform 滑出，并用负边距隐藏占位空间 */}
 				{!isHomePage && (
 					<aside
 						className={`
-							global-card py-4 
+							global-card py-8 
 							transition-all duration-300 ease-in-out
 							shrink-0
-							w-58
+							w-58 side-shadow 
 							${isSidebarOpen ? 'translate-x-0 mr-0' : '-translate-x-full -mr-62 opacity-0'}
 						`}
 					>
@@ -57,7 +57,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 				)}
 
 				{/* ✅ 主内容 - 自动撑满剩余空间 */}
-				<main className='flex flex-col  flex-1 min-w-0'>
+				<main className='flex flex-col  h-full'>
 					{!isHomePage && (
 						<section className='flex gap-2 items-center justify-start w-full py-1.5'>
 							<SidebarToggle defaultOpen={isSidebarOpen} onToggle={setIsSidebarOpen} />
