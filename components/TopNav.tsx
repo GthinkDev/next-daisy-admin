@@ -34,11 +34,11 @@ const TopNav = () => {
 								href={item.url}
 								key={item.url}
 								className={`
-                  btn  btn-ghost  text-sm px-3 rounded-full h-full  border-none  hover:border-none   
+                  btn btn-ghost px-3 rounded-full h-full  border-none  hover:border-none   
                   ${active ? 'bg-primary text-primary-content ' : 'hover:bg-base-content/10'}
                 `}
 							>
-								<item.icon className='w-4 h-4' />
+								<item.icon className='w-4 items-center flex  justify-center' />
 								{item.name}
 							</Link>
 						)

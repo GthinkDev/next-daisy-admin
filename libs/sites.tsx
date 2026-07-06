@@ -18,6 +18,8 @@ import {
 	Settings,
 	ShoppingBag,
 	Truck,
+	Bolt,
+	ClipboardList,
 } from 'lucide-react'
 
 // ✅ 导出 MenuItem 类型，供其他模块使用
@@ -33,8 +35,8 @@ const siteConfig = {
 	// ✅ 主导航（顶部菜单）
 	sites: [
 		{ name: '首页', url: '/', icon: Home },
-		{ name: '商城', url: '/mail', icon: Store },
-		{ name: '会员', url: '/users', icon: Users },
+		{ name: '商城', url: '/mail/products/selling', icon: Store },
+		{ name: '会员', url: '/users/management/lists', icon: Users },
 		{ name: '营销', url: '/marketing', icon: LoaderPinwheel },
 		{ name: '财务', url: '/financial', icon: DollarSign },
 		{ name: '数据', url: '/data', icon: BarChart3 },
@@ -43,10 +45,18 @@ const siteConfig = {
 
 	// ✅ 会员模块菜单（左侧栏）
 	usersMenus: [
-		{ label: '会员列表', href: '/users/levels', icon: Users },
-		{ label: '会员等级 ', href: '/users/points', icon: ShieldUser },
-		{ label: '标签管理', href: '/users/analysis', icon: Cog },
-		{ label: '升级设置', href: '/users/settings/trade', icon: Cog },
+		{
+			label: '会员管理',
+			href: '/users/management', // ✅ 添加 href
+			icon: Users,
+			isOpen: true,
+			children: [
+				{ label: '会员列表', href: '/users/management/lists' },
+				{ label: '会员等级', href: '/users/management/levels' },
+				{ label: '积分管理', href: '/users/management/points' },
+				{ label: '会员分析', href: '/users/management/analysis' },
+			],
+		},
 	],
 
 	// ✅ 营销模块菜单（左侧栏）
@@ -96,7 +106,7 @@ const siteConfig = {
 				{
 					label: '商品设置',
 					href: '/mail/products/settings', // ✅ 添加 href
-					icon: Settings,
+					icon: Bolt,
 					children: [
 						{ label: '分类层级', href: '/mail/products/settings/categories' },
 						{ label: '商品分组', href: '/mail/products/settings/groups' },
@@ -121,7 +131,7 @@ const siteConfig = {
 				{
 					label: '订单处理',
 					href: '/mail/orders/processing', // ✅ 添加 href
-					icon: Settings,
+					icon: ClipboardList,
 					children: [
 						{ label: '维权订单', href: '/mail/orders/processing/rights' },
 						{ label: '评价管理', href: '/mail/orders/processing/reviews' },

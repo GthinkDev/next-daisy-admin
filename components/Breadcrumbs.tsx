@@ -13,7 +13,7 @@ const Breadcrumbs = () => {
 		return null
 	}
 
-	// ✅ 直接从菜单配置构建路径映射，所有标签都来自配置表
+	// ✅ 构建路径映射
 	const pathMap = useMemo(() => {
 		const map = new Map<string, string>()
 
@@ -28,7 +28,6 @@ const Breadcrumbs = () => {
 			}
 		}
 
-		// 遍历所有模块菜单
 		const allMenus = [
 			...siteConfig.mailMenus,
 			...siteConfig.usersMenus,
@@ -40,24 +39,18 @@ const Breadcrumbs = () => {
 
 		traverse(allMenus)
 
-		// 顶部导航名称映射（用于第一级）
-		const moduleMap: Record<string, string> = {
-			'/mail': '商城',
-			'/users': '会员',
-			'/marketing': '营销',
-			'/financial': '财务',
-			'/data': '数据',
-			'/plugin': '插件',
-		}
-
-		for (const [path, label] of Object.entries(moduleMap)) {
-			if (!map.has(path)) {
-				map.set(path, label)
-			}
-		}
-
 		return map
 	}, [])
+
+	// ✅ 顶部导航名称（仅用于第一级显示）
+	const moduleNames: Record<string, string> = {
+		'/mail': '商城',
+		'/users': '会员',
+		'/marketing': '营销',
+		'/financial': '财务',
+		'/data': '数据',
+		'/plugin': '插件',
+	}
 
 	// ✅ 构建面包屑数据
 	const breadcrumbs = useMemo(() => {
@@ -66,18 +59,30 @@ const Breadcrumbs = () => {
 
 		if (segments.length === 0) return result
 
-		// 第一级：顶部导航名称
-		const moduleLabel = pathMap.get('/' + segments[0]) || segments[0]
+		// ✅ 第一级：使用顶部导航名称
+		const firstLevelPath = '/' + segments[0]
+		const firstLabel = moduleNames[firstLevelPath] || segments[0]
 		result.push({
-			label: moduleLabel,
-			href: '/' + segments[0],
+			label: firstLabel,
+			href: firstLevelPath,
 			isLast: false,
 		})
 
-		// 从第二级开始，从 pathMap 中查找
+		// ✅ 从第二级开始，从菜单配置中查找
 		for (let i = 1; i < segments.length; i++) {
 			const href = '/' + segments.slice(0, i + 1).join('/')
-			const label = pathMap.get(href) || segments[i]
+			let label = pathMap.get(href)
+
+			// ✅ 如果找不到，尝试用父级路径
+			if (!label) {
+				const parentHref = '/' + segments.slice(0, i).join('/')
+				label = pathMap.get(parentHref)
+			}
+
+			// ✅ 如果还是找不到，使用路径片段
+			if (!label) {
+				label = segments[i]
+			}
 
 			result.push({
 				label,
@@ -87,7 +92,7 @@ const Breadcrumbs = () => {
 		}
 
 		return result
-	}, [pathname, pathMap])
+	}, [pathname, pathMap, moduleNames])
 
 	if (breadcrumbs.length === 0) {
 		return null
@@ -98,13 +103,19 @@ const Breadcrumbs = () => {
 			{breadcrumbs.map((item, index) => (
 				<React.Fragment key={`${item.href}-${index}`}>
 					{index === 0 ? (
-						<button className='flex items-center gap-4 text-base-content/70 font-medium hover:text-primary transition-colors px-3 py-1 rounded-md hover:cursor-pointer no-underline'>
+						<button
+							onClick={() => router.push(item.href)}
+							className='flex items-center gap-4 text-base-content/70 font-medium hover:text-primary transition-colors px-3 py-1 rounded-md hover:cursor-pointer no-underline'
+						>
 							{item.label}
 						</button>
 					) : item.isLast ? (
-						<span className='font-bold px-3 py-1 hover:cursor-pointer'>{item.label}</span>
+						<span className='font-bold px-3 py-1'>{item.label}</span>
 					) : (
-						<button className='text-base-content/80 font-medium hover:text-primary transition-colors px-3 py-1 rounded-md hover:cursor-pointer no-underline'>
+						<button
+							onClick={() => router.push(item.href)}
+							className='text-base-content/80 font-medium hover:text-primary transition-colors px-3 py-1 rounded-md hover:cursor-pointer no-underline'
+						>
 							{item.label}
 						</button>
 					)}

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { type LucideIcon } from 'lucide-react'
@@ -16,8 +16,8 @@ interface SideBarProps {
 const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: SideBarProps) => {
 	const pathname = usePathname()
 
-	// ✅ 存储所有菜单的展开状态 - 默认全部展开
-	const [openMenus, setOpenMenus] = useState<Record<string, boolean>>(() => {
+	// ✅ 所有菜单默认全部展开
+	const [openMenus] = useState<Record<string, boolean>>(() => {
 		const initial: Record<string, boolean> = {}
 		const initOpenState = (items: MenuItem[], parentKey = '') => {
 			items.forEach((item, index) => {
@@ -32,36 +32,7 @@ const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: S
 		return initial
 	})
 
-	// ✅ 当路径变化时，自动展开包含当前路径的父级菜单
-	useEffect(() => {
-		const newOpenMenus: Record<string, boolean> = {}
-		const updateOpenState = (items: MenuItem[], parentKey = '') => {
-			items.forEach((item, index) => {
-				const key = parentKey ? `${parentKey}-${index}` : `${index}`
-				if (item.href && pathname.startsWith(item.href)) {
-					newOpenMenus[key] = true
-				}
-				if (item.children) {
-					const hasActiveChild = item.children.some((child) => child.href && pathname.startsWith(child.href))
-					if (hasActiveChild) {
-						newOpenMenus[key] = true
-					}
-					updateOpenState(item.children, key)
-				}
-			})
-		}
-		updateOpenState(menus)
-		setOpenMenus((prev) => ({ ...prev, ...newOpenMenus }))
-	}, [pathname, menus])
-
-	// ✅ 切换菜单展开/收起
-	const toggleMenu = (key: string) => {
-		setOpenMenus((prev) => ({
-			...prev,
-			[key]: !prev[key],
-		}))
-	}
-
+	// ✅ 判断是否为精确匹配（只高亮当前路径）
 	const isExactActive = (href?: string) => {
 		if (!href) return false
 		return pathname === href
@@ -70,43 +41,29 @@ const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: S
 	const renderIcon = (icon?: LucideIcon) => {
 		if (!icon) return null
 		const IconComponent = icon
-		return <IconComponent className='w-4 h-4 shrink-0 ' />
+		return <IconComponent className='w-4 h-4 shrink-0' />
 	}
 
-	// ✅ 递归生成菜单项（带索引生成唯一 key）
+	// ✅ 递归生成菜单项
 	const renderMenuItem = (item: MenuItem, index: number, parentKey = '', depth: number = 0) => {
 		const hasChildren = item.children && item.children.length > 0
+		// ✅ 只有精确匹配才高亮
 		const active = isExactActive(item.href)
 		const key = parentKey ? `${parentKey}-${index}` : `${index}`
 		const isOpen = openMenus[key] || false
-		// ✅ 判断是否为一级菜单
 		const isTopLevel = parentKey === ''
-		// ✅ 判断是否应该加粗：所有一级菜单 + 有子级的二级菜单
 		const shouldBold = isTopLevel || (depth === 1 && hasChildren)
 
 		if (hasChildren) {
 			return (
-				<li key={key} className={active ? 'menu-active rounded-field ' : ''}>
-					<details
-						open={isOpen}
-						onToggle={(e) => {
-							if (e.currentTarget.open !== isOpen) {
-								toggleMenu(key)
-							}
-						}}
-					>
-						<summary
-							onClick={(e) => {
-								e.preventDefault()
-								toggleMenu(key)
-							}}
-							className={`cursor-pointer ${shouldBold ? 'font-extrabold' : ''}`}
-						>
+				<li key={key} className={active ? 'menu-active rounded-field' : ''}>
+					<details open={isOpen}>
+						<summary className={`cursor-pointer ${shouldBold ? 'font-extrabold' : ''}`}>
 							{renderIcon(item.icon)}
 							<span>{item.label}</span>
 						</summary>
 						<div className={`menu-children ${isOpen ? 'menu-children-open' : ''}`}>
-							<ul className='my-2 flex flex-col gap-2 '>
+							<ul className='my-2 flex flex-col gap-2'>
 								{item.children!.map((child, childIndex) => renderMenuItem(child, childIndex, key, depth + 1))}
 							</ul>
 						</div>
@@ -123,7 +80,7 @@ const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: S
 						<span className={isTopLevel ? 'font-extrabold' : ''}>{item.label}</span>
 					</Link>
 				) : (
-					<span className='px-4 text-base-content/40 '>
+					<span className='px-4 text-base-content/40'>
 						{renderIcon(item.icon)}
 						<span className={isTopLevel ? 'font-extrabold' : 'font-medium'}>{item.label}</span>
 					</span>
@@ -131,15 +88,14 @@ const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: S
 			</li>
 		)
 	}
+
 	return (
 		<div className={`h-full flex flex-col ${className} max-h-[calc(100vh-160px)] overflow-y-auto`}>
-			{/* {showTitle && title && <p className='px-6 font-bold  text-xs uppercase tracking-wider'>{title}</p>} */}
 			{menus.length > 0 ? (
-				<ul className='menu  w-full flex flex-col gap-2 '>{menus.map((item, index) => renderMenuItem(item, index))}</ul>
+				<ul className='menu w-full flex flex-col gap-2'>{menus.map((item, index) => renderMenuItem(item, index))}</ul>
 			) : (
 				<div className='text-center text-gray-400 text-sm py-4'>暂无菜单</div>
 			)}
-			{/* CSS 动画 - 使用 max-height + 组合动画 */}
 			<style jsx global>{`
 				.menu-children {
 					max-height: 0;
@@ -156,7 +112,6 @@ const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: S
 					opacity: 1;
 					transform: translateY(0);
 				}
-				/* 收起时更慢 */
 				.menu-children:not(.menu-children-open) {
 					transition:
 						max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
