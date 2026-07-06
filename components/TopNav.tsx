@@ -25,8 +25,8 @@ const TopNav = () => {
 			</div>
 
 			{/* 导航菜单 */}
-			<div className='h-full flex-1 '>
-				<ul className='w-fit h-full items-center flex-1 rounded-full gap-2   p-1 box-shadow bg-base-100'>
+			<div className='h-full flex-1  '>
+				<ul className='w-fit h-full gap-1 items-center flex flex-1 rounded-full  p-1 box-shadow bg-base-100 border-base-100 border-2'>
 					{sites.map((item) => {
 						const active = isActive(item.url)
 						return (
@@ -34,7 +34,7 @@ const TopNav = () => {
 								href={item.url}
 								key={item.url}
 								className={`
-                  btn btn-ghost rounded-full h-full   border-none  hover:border-none   
+                  btn  btn-ghost  text-sm px-3 rounded-full h-full  border-none  hover:border-none   
                   ${active ? 'bg-primary text-primary-content ' : 'hover:bg-base-content/10'}
                 `}
 							>
@@ -47,7 +47,7 @@ const TopNav = () => {
 			</div>
 
 			{/* 右侧操作按钮 */}
-			<div className='w-fit h-full items-center flex gap-2 rounded-full  box-shadow p-1'>
+			<div className='w-fit h-full items-center flex gap-2 rounded-full  box-shadow p-1 bg-base-100 border-base-100 border-2'>
 				<Themes />
 				<div className='w-px h-1/3 bg-base-content/30' />
 				<button className='button-hover-global '>

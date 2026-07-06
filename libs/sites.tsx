@@ -11,6 +11,7 @@ import {
 	DollarSign,
 	Database as DatabaseIcon,
 	Puzzle,
+	ShieldUser,
 	type LucideIcon,
 	Store,
 	Package,
@@ -32,7 +33,7 @@ const siteConfig = {
 	// ✅ 主导航（顶部菜单）
 	sites: [
 		{ name: '首页', url: '/', icon: Home },
-		{ name: '商城', url: '/mail', icon: Database },
+		{ name: '商城', url: '/mail', icon: Store },
 		{ name: '会员', url: '/users', icon: Users },
 		{ name: '营销', url: '/marketing', icon: LoaderPinwheel },
 		{ name: '财务', url: '/financial', icon: DollarSign },
@@ -42,10 +43,10 @@ const siteConfig = {
 
 	// ✅ 会员模块菜单（左侧栏）
 	usersMenus: [
-		{ label: '会员列表', href: '/users', icon: Users },
-		{ label: '会员等级', href: '/users/levels', icon: Cog },
-		{ label: '积分管理', href: '/users/points', icon: Cog },
-		{ label: '会员分析', href: '/users/analysis', icon: BarChart3 },
+		{ label: '会员列表', href: '/users/levels', icon: Users },
+		{ label: '会员等级 ', href: '/users/points', icon: ShieldUser },
+		{ label: '标签管理', href: '/users/analysis', icon: Cog },
+		{ label: '升级设置', href: '/users/settings/trade', icon: Cog },
 	],
 
 	// ✅ 营销模块菜单（左侧栏）

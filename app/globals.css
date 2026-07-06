@@ -8,18 +8,17 @@ body {
 }
 
 .global-card {
-  @apply   rounded-4xl shadow-[0_25px_25px]  shadow-black/8 bg-base-200/50 border-base-100 border-2 px-1
+  @apply   rounded-4xl shadow-[0_25px_25px]  shadow-black/8 bg-base-200/70 border-white/10 border px-1
 }
    
 
 .box-shadow {
-  @apply shadow-[0_10px_35px]  shadow-black/8
+  @apply shadow-[0_10px_35px]  shadow-black/8 
 }o
 .side-shadow {
-  @apply shadow-[10px_0_25px]  shadow-black/15
+  @apply shadow-[25px_0_25px]  shadow-black/60
 }
 
 .button-hover-global {
   @apply btn btn-circle btn-ghost hover:bg-base-content/10 border-none  hover:border-none
 }
-
