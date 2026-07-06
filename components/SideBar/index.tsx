@@ -16,7 +16,6 @@ interface SideBarProps {
 const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: SideBarProps) => {
 	const pathname = usePathname()
 
-	// ✅ 所有菜单默认全部展开
 	const [openMenus] = useState<Record<string, boolean>>(() => {
 		const initial: Record<string, boolean> = {}
 		const initOpenState = (items: MenuItem[], parentKey = '') => {
@@ -32,7 +31,6 @@ const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: S
 		return initial
 	})
 
-	// ✅ 判断是否为精确匹配（只高亮当前路径）
 	const isExactActive = (href?: string) => {
 		if (!href) return false
 		return pathname === href
@@ -44,10 +42,8 @@ const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: S
 		return <IconComponent className='w-4 h-4 shrink-0' />
 	}
 
-	// ✅ 递归生成菜单项
 	const renderMenuItem = (item: MenuItem, index: number, parentKey = '', depth: number = 0) => {
 		const hasChildren = item.children && item.children.length > 0
-		// ✅ 只有精确匹配才高亮
 		const active = isExactActive(item.href)
 		const key = parentKey ? `${parentKey}-${index}` : `${index}`
 		const isOpen = openMenus[key] || false
@@ -90,7 +86,7 @@ const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: S
 	}
 
 	return (
-		<div className={`h-full flex flex-col ${className} max-h-[calc(100vh-160px)] overflow-y-auto`}>
+		<div className={`h-full flex flex-col ${className} max-h-[calc(100vh-160px)] overflow-y-auto scrollbar-hide`}>
 			{menus.length > 0 ? (
 				<ul className='menu w-full flex flex-col gap-2'>{menus.map((item, index) => renderMenuItem(item, index))}</ul>
 			) : (

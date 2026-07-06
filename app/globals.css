@@ -3,12 +3,16 @@
   themes: all;
 }
 
+*{
+  @apply   scrollbar-thumb-base-content/50 
+}
+
 body {
   @apply p-2 h-full bg-base-200/30
 }
 
 .global-card {
-  @apply   rounded-4xl shadow-[0_25px_25px]  shadow-black/8 bg-base-200/70 border-white/10 border px-1
+  @apply   rounded-4xl shadow-[0_25px_25px]  shadow-black/8 bg-base-200/70 border-white/10 border px-1 
 }
    
 
@@ -22,3 +26,4 @@ body {
 .button-hover-global {
   @apply btn btn-circle btn-ghost hover:bg-base-content/10 border-none  hover:border-none
 }
+
