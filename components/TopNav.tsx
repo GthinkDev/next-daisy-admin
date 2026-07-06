@@ -12,9 +12,17 @@ const TopNav = () => {
 	const sites = siteConfig.sites
 	const pathname = usePathname()
 
+	// ✅ 简单直接：根据模块前缀判断
 	const isActive = (url: string) => {
 		if (url === '/') return pathname === '/'
-		return pathname.startsWith(url)
+
+		// 提取模块前缀（如 /mail, /users, /marketing 等）
+		const modulePrefix = '/' + url.split('/')[1]
+
+		// 如果当前路径以模块前缀开头，则高亮
+		if (pathname.startsWith(modulePrefix)) return true
+
+		return false
 	}
 
 	return (

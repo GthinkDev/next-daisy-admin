@@ -34,6 +34,15 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 		if (pathname.startsWith('/plugin')) return siteConfig.pluginMenus
 	}
 
+	// app/(main)/layout.tsx 中的顶部导航部分
+	const isActive = (url: string) => {
+		if (url === '/') return pathname === '/'
+		if (pathname === url) return true
+		if (pathname.startsWith(url + '/')) return true
+		if (url.startsWith(pathname + '/')) return true
+		return false
+	}
+
 	return (
 		<div className='flex flex-col h-full gap-6'>
 			{/* ✅ 顶部导航 */}

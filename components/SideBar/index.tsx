@@ -88,33 +88,10 @@ const SideBar = ({ title = '', menus = [], showTitle = true, className = '' }: S
 	return (
 		<div className={`h-full flex flex-col ${className} max-h-[calc(100vh-160px)] overflow-y-auto scrollbar-hide`}>
 			{menus.length > 0 ? (
-				<ul className='menu w-full flex flex-col gap-2'>{menus.map((item, index) => renderMenuItem(item, index))}</ul>
+				<ul className='menu w-full flex flex-col gap-1'>{menus.map((item, index) => renderMenuItem(item, index))}</ul>
 			) : (
 				<div className='text-center text-gray-400 text-sm py-4'>暂无菜单</div>
 			)}
-			<style jsx global>{`
-				.menu-children {
-					max-height: 0;
-					opacity: 0;
-					transform: translateY(-12px);
-					overflow: hidden;
-					transition:
-						max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-						opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-						transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-				}
-				.menu-children-open {
-					max-height: 800px;
-					opacity: 1;
-					transform: translateY(0);
-				}
-				.menu-children:not(.menu-children-open) {
-					transition:
-						max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-						opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1) 0.25s,
-						transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) 0.25s;
-				}
-			`}</style>
 		</div>
 	)
 }
