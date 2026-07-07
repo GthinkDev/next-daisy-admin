@@ -1,7 +1,7 @@
 // components/UserLists.tsx
 'use client'
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import SearchBar from './SearchBar'
 import TableList from './TableList'
 import ButtonBar from './ButtonBar'

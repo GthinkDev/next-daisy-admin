@@ -2,7 +2,7 @@ import { DatabaseSearch, RefreshCw } from 'lucide-react'
 
 const SearchBar = () => {
 	return (
-		<div className='grid grid-cols-5 gap-2 py-2'>
+		<div className='grid grid-cols-5 gap-2 '>
 			<label className='input input-sm'>
 				<svg className='h-[1em] opacity-50' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>
 					<g strokeLinejoin='round' strokeLinecap='round' strokeWidth='2.5' fill='none' stroke='currentColor'>

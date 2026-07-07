@@ -66,7 +66,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 				)}
 
 				{/* ✅ 主内容 - 自动撑满剩余空间 */}
-				<main className='flex flex-col w-full  h-full'>
+				<main className='flex flex-col w-full gap-2  h-full'>
 					{!isHomePage && (
 						<section className='flex gap-2 items-center justify-start w-full py-1.5'>
 							<SidebarToggle defaultOpen={isSidebarOpen} onToggle={setIsSidebarOpen} />
@@ -74,7 +74,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 							<Breadcrumbs />
 						</section>
 					)}
-					<section className='flex-1 p-1 overflow-y-auto'>{children}</section>
+					<section className='flex-1 h-full  overflow-y-auto'>{children}</section>
 				</main>
 			</div>
 		</div>
